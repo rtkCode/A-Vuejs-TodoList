@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>TodoList</title>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <link href="https://fonts.proxy.ustclug.org/css?family=Dosis&display=swap" rel="stylesheet">
+    <link href="https://fonts.proxy.ustclug.org/css?family=Lobster&display=swap" rel="stylesheet">
+    <!--    Vue-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <!--    Bootstrap-->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <div class="container-fluid" id="app">
+
+        <div id="todoMain" class="col-12">
+            <h1 class="h1">TodoList</h1>
+            <div class="input-group">
+                <input v-model="todotext" type="text" class="form-control" placeholder="Something fun">
+                <div class="input-group-append">
+                    <button v-on:click="submit()" class="btn btn-outline-secondary" type="button">Submit</button>
+                </div>
+            </div>
+
+            <transition-group name="fade" tag="div" class="col-12">
+                <div v-for="(item, index) in items" :key="item" class="row todoItem p-2 my-2 justify-content-between">
+                    <div>{{item}}</div>
+                    <button class="btn btn-outline-danger" v-on:click="deleteItem(index)">Delete</button>
+                </div>
+            </transition-group>
+        </div>
+
+    </div>
+</body>
+
+<script>
+    let list=localStorage.getItem('todoList');
+    if(list==null){
+        list=[];
+        console.log("LocalStorage is empty");
+    }else{
+        list=JSON.parse(localStorage.getItem('todoList'));
+        list=objToArr(list);
+    }
+
+    function objToArr(list){
+        var arr = [];
+        for (var key in list) {
+            arr[key]=list[key];
+        }
+        return arr;
+    }
+
+    let main = new Vue({
+        el: '#todoMain',
+        data: {
+            items: list,
+            todotext: "",
+        },
+        methods: {
+            submit: function(){
+                this.items.push(this.todotext);
+                this.todotext="";
+                localStorage.setItem('todoList', JSON.stringify(this.arrToObj(list)));
+            },
+            deleteItem: function (i) {
+                this.items.splice(i,1);
+                // localStorage.setItem('todoList', JSON.stringify(this.items));
+                localStorage.setItem('todoList', JSON.stringify(this.arrToObj(list)));
+            },
+            arrToObj: function(arr){
+                var list = {};
+                for (var key in arr) {
+                    list[key] = arr[key];
+                }
+                return list;
+            }
+        }
+    });
+
+</script>
+</html>

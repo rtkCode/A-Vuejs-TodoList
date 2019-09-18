@@ -1,0 +1,26 @@
+/* for Vue */
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+}
+
+html,body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Dosis', sans-serif;
+}
+h1{
+    font-family: 'Lobster', cursive;
+}
+#todoMain{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.todoItem{
+    border-radius: 7px;
+    border: 1px solid #ced4da;
+}
